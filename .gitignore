@@ -24,3 +24,5 @@ dist/
 
 # IDE files
 .vscode/
+
+backend/acl_backup.txt
