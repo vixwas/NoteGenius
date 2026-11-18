@@ -1,0 +1,105 @@
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(139, 119, 255, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(139, 119, 255, 0.25);
+  }
+
+  100% {
+    box-shadow: 0 0 10px rgba(139, 119, 255, 0.1);
+  }
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.upload-icon {
+  animation: floating 4s ease-in-out infinite;
+}
+
+.generation-card {
+  animation: fadeUp 0.5s ease backwards;
+}
+
+.generation-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.generation-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.generation-card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.generation-card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.generation-card:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.generation-card:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.upload-box.dragging {
+  animation: pulseGlow 1.5s infinite;
+}

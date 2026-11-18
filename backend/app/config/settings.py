@@ -1,0 +1,11 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
+
+# Gemini API Key
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# Gemini model
+GEMINI_MODEL = "gemini-3.8-flash"
