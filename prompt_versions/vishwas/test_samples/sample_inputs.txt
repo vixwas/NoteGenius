@@ -1,0 +1,41 @@
+
+TEST CASE 01 — BASIC COMPUTER SCIENCE MCQ
+
+Study Material:
+
+An Operating System (OS) is system software that manages computer hardware and software resources. It acts as an interface between the user and computer hardware.
+
+The major functions of an operating system include process management, memory management, file management, device management and security.
+
+A process is a program currently in execution. Process management handles process creation, scheduling and termination.
+
+Memory management manages primary memory and allocates memory to processes when required.
+
+Difficulty: Medium
+Learning Level: University Student
+Language: English
+Question Count: 5
+
+TEST CASE 02 — EDGE CASE: SHORT INPUT
+
+Study Material:
+
+RAM is volatile memory. It loses its stored data when power is turned off.
+
+Difficulty: Easy
+Learning Level: Beginner
+Language: Hindi
+Question Count: 3
+
+TEST CASE 03 — EDGE CASE: NUMERICAL CONCEPT
+
+Study Material:
+
+Binary numbers use only two digits, 0 and 1.
+
+The decimal number 5 is represented as 101 in binary.
+
+Difficulty: Medium
+Learning Level: University Student
+Language: Hinglish
+Question Count: 3

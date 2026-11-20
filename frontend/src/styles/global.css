@@ -1831,3 +1831,61 @@ select:focus-visible {
 .upload-hidden-input {
     display: none !important;
 }
+
+
+
+/* Improve AI Notes Markdown Tables */
+
+.markdown-content table {
+  width: 100%;
+  min-width: 650px;
+  table-layout: auto;
+}
+
+.markdown-content th:first-child,
+.markdown-content td:first-child {
+  min-width: 110px;
+  white-space: normal;
+  overflow-wrap: normal;
+}
+
+.markdown-content th,
+.markdown-content td {
+  vertical-align: top;
+  word-break: normal;
+}
+
+
+
+/* Professional Mathematical Equation Rendering */
+
+.markdown-content .katex-display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 12px 8px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.markdown-content .katex {
+  font-size: 1.05em;
+}
+
+.markdown-content .katex-display > .katex {
+  white-space: nowrap;
+}
+
+.markdown-content p {
+  overflow-wrap: anywhere;
+  margin-bottom: 18px;
+}
+
+.markdown-content li {
+  margin-bottom: 18px;
+}
+
+.markdown-content {
+  line-height: 1.9;
+}

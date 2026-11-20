@@ -1,9 +1,18 @@
+
 import { useState } from "react";
+
+import {
+  generateStudyMaterial,
+  generateQuizMaterial,
+  generateFlashcardMaterial,
+} from "./services/aiService";
 
 import UploadBox from "./components/UploadBox.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import Navbar from "./components/Navbar.jsx";
 import MyNotes from "./pages/MyNotes.jsx";
+import QuizResults from "./components/QuizResults.jsx";
+import FlashcardResults from "./components/FlashcardResults.jsx";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("dashboard");
@@ -16,43 +25,57 @@ function App() {
   const [detailLevel, setDetailLevel] = useState("medium");
 
   const [statusMessage, setStatusMessage] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const [streamingContent, setStreamingContent] = useState("");
+
+  const [generatedQuiz, setGeneratedQuiz] = useState(null);
+  const [generatedFlashcards, setGeneratedFlashcards] = useState(null);
+
+  // GENERATION OPTIONS
 
   const generationOptions = [
     {
       id: "summary",
       icon: "📝",
       title: "Smart Summary",
-      description: "Get the key points and important ideas in a concise format.",
+      description:
+        "Get the key points and important ideas in a concise format.",
     },
     {
       id: "detailed",
       icon: "📚",
       title: "Detailed Notes",
-      description: "Create comprehensive notes covering the important topics.",
+      description:
+        "Create comprehensive notes covering the important topics.",
     },
     {
       id: "exam",
       icon: "🎯",
       title: "Exam Notes",
-      description: "Focus on definitions, important concepts and exam-worthy points.",
+      description:
+        "Focus on definitions, important concepts and exam-worthy points.",
     },
     {
       id: "simple",
       icon: "💡",
       title: "Simple Explanation",
-      description: "Understand complex topics in easy language with examples.",
+      description:
+        "Understand complex topics in easy language with examples.",
     },
     {
       id: "quiz",
       icon: "❓",
       title: "Quiz / MCQs",
-      description: "Test your understanding with questions based on your material.",
+      description:
+        "Test your understanding with questions based on your material.",
     },
     {
       id: "flashcards",
       icon: "🃏",
       title: "Flashcards",
-      description: "Create question-answer cards for quick revision.",
+      description:
+        "Create question-answer cards for quick revision.",
     },
   ];
 
@@ -62,6 +85,9 @@ function App() {
     setSelectedFiles(files);
     setSelectedMode("");
     setStatusMessage("");
+    setStreamingContent("");
+    setGeneratedQuiz(null);
+    setGeneratedFlashcards(null);
   };
 
   // MODE SELECTION
@@ -69,11 +95,12 @@ function App() {
   const handleModeSelect = (mode) => {
     setSelectedMode(mode);
     setStatusMessage("");
+    setStreamingContent("");
   };
 
-  // GENERATE AND SAVE NOTE
+  // GENERATE STUDY MATERIAL
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (selectedFiles.length === 0) {
       setStatusMessage("❌ Please upload at least one file.");
       return;
@@ -93,65 +120,192 @@ function App() {
       return;
     }
 
-    let existingNotes = [];
-
-    try {
-      existingNotes = JSON.parse(
-        localStorage.getItem("notegenius_notes") || "[]"
+    // These three modes are connected to the backend.
+    if (!["detailed", "quiz", "flashcards"].includes(selectedMode)) {
+      setStatusMessage(
+        "⚠️ This generation mode is not connected yet. Detailed Notes, Quiz and Flashcards are currently supported."
       );
-    } catch (error) {
-      console.error("Error reading notes:", error);
-      existingNotes = [];
+      return;
     }
 
-    const firstFileName =
-      selectedFiles[0]?.name || "Untitled Study Material";
-
-    const newNote = {
-      id: Date.now(),
-
-      title: firstFileName.replace(/\.[^/.]+$/, ""),
-
-      type: selectedMode,
-
-      description: `${selectedOption.title} created from ${
-        selectedFiles.length
-      } uploaded file${selectedFiles.length > 1 ? "s" : ""}.`,
-
-      files: selectedFiles.map((file) => file.name),
-
-      learningLevel,
-      language,
-      detailLevel,
-
-      date: new Date().toLocaleDateString(),
-
-      content: `Demo ${selectedOption.title}.
-
-Your uploaded material: ${selectedFiles
-        .map((file) => file.name)
-        .join(", ")}
-
-Actual AI-generated content will be available after connecting the backend.`,
+    const learningLevelMap = {
+      beginner: "Beginner",
+      student: "University Student",
+      advanced: "Advanced",
     };
 
-    const updatedNotes = [newNote, ...existingNotes];
+    const selectedLearningLevel =
+      learningLevelMap[learningLevel] || "University Student";
+
+    const selectedLanguage =
+      language.charAt(0).toUpperCase() + language.slice(1);
 
     try {
-      localStorage.setItem(
-        "notegenius_notes",
-        JSON.stringify(updatedNotes)
-      );
+      setIsGenerating(true);
+      setStreamingContent("");
+      setGeneratedQuiz(null);
+      setGeneratedFlashcards(null);
 
       setStatusMessage(
-        `✅ ${selectedOption.title} saved successfully! Go to My Notes to view it.`
+        "⏳ Uploading document and connecting to AI..."
       );
 
-      console.log("Saved Note:", newNote);
-    } catch (error) {
-      console.error("Error saving note:", error);
+      const selectedFile = selectedFiles[0];
 
-      setStatusMessage("❌ Unable to save note.");
+      // DETAILED NOTES GENERATION
+
+      if (selectedMode === "detailed") {
+        const result = await generateStudyMaterial(
+          selectedFile,
+          (chunk, completeText) => {
+            setStreamingContent(completeText);
+            setStatusMessage("✨ AI is generating your notes...");
+          }
+        );
+
+        if (!result || !result.content || !result.content.trim()) {
+          throw new Error("AI did not return any notes.");
+        }
+
+        let existingNotes = [];
+
+        try {
+          const savedNotes = JSON.parse(
+            localStorage.getItem("notegenius_notes") || "[]"
+          );
+
+          existingNotes = Array.isArray(savedNotes)
+            ? savedNotes
+            : [];
+        } catch (error) {
+          console.error("Error reading saved notes:", error);
+          existingNotes = [];
+        }
+
+        const firstFileName = selectedFile.name;
+
+        const newNote = {
+          id: Date.now(),
+
+          title:
+            result.title ||
+            firstFileName.replace(/\.[^/.]+$/, ""),
+
+          type: "detailed",
+
+          description:
+            "AI-generated detailed notes from your uploaded document.",
+
+          files: [
+            result.originalFilename || firstFileName,
+          ],
+
+          learningLevel,
+          language,
+          detailLevel,
+
+          date: new Date().toLocaleDateString(),
+
+          content: result.content,
+        };
+
+        const updatedNotes = [
+          newNote,
+          ...existingNotes,
+        ];
+
+        localStorage.setItem(
+          "notegenius_notes",
+          JSON.stringify(updatedNotes)
+        );
+
+        setStreamingContent(result.content);
+
+        setStatusMessage(
+          "✅ AI Notes generated successfully! Open My Notes to view them."
+        );
+
+        console.log("AI-generated note saved:", newNote);
+      }
+
+      // QUIZ GENERATION
+
+      if (selectedMode === "quiz") {
+        setStatusMessage(
+          "⏳ AI is preparing your Quiz. Please wait..."
+        );
+
+        const result = await generateQuizMaterial(
+          selectedFile,
+          5,
+          "Medium",
+          selectedLearningLevel,
+          selectedLanguage
+        );
+
+        if (!result?.quiz?.questions?.length) {
+          throw new Error("No quiz questions were returned.");
+        }
+
+        setGeneratedQuiz(result.quiz);
+
+        localStorage.setItem(
+          "notegenius_quiz",
+          JSON.stringify(result.quiz)
+        );
+
+        setStatusMessage(
+          "✅ Quiz generated successfully!"
+        );
+
+        console.log("Generated Quiz:", result.quiz);
+      }
+
+      // FLASHCARDS GENERATION
+
+      if (selectedMode === "flashcards") {
+        setStatusMessage(
+          "⏳ AI is creating your Flashcards. Please wait..."
+        );
+
+        const result = await generateFlashcardMaterial(
+          selectedFile,
+          5,
+          "Medium",
+          selectedLearningLevel,
+          selectedLanguage
+        );
+
+        if (!result?.flashcards?.length) {
+          throw new Error("No flashcards were returned.");
+        }
+
+        const flashcardData = {
+          title: result.title,
+          flashcards: result.flashcards,
+        };
+
+        setGeneratedFlashcards(flashcardData);
+
+        localStorage.setItem(
+          "notegenius_flashcards",
+          JSON.stringify(flashcardData)
+        );
+
+        setStatusMessage(
+          "✅ Flashcards generated successfully!"
+        );
+
+        console.log("Generated Flashcards:", flashcardData);
+      }
+    } catch (error) {
+      console.error("AI generation error:", error);
+
+      setStatusMessage(
+        `❌ ${error.message || "Unable to generate study material."}`
+      );
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -172,12 +326,14 @@ Actual AI-generated content will be available after connecting the backend.`,
 
               <h2>
                 Turn your notes into
-                <span className="hero-highlight"> knowledge.</span>
+                <span className="hero-highlight">
+                  {" "}knowledge.
+                </span>
               </h2>
 
               <p>
-                Upload your study materials and let AI help you understand,
-                summarize, and learn smarter.
+                Upload your study materials and let AI help you
+                understand, summarize, and learn smarter.
               </p>
             </section>
 
@@ -196,7 +352,9 @@ Actual AI-generated content will be available after connecting the backend.`,
               <section className="generation-section">
 
                 <div className="generation-heading">
-                  <h2>What would you like to create?</h2>
+                  <h2>
+                    What would you like to create?
+                  </h2>
 
                   <p>
                     Select an option based on your learning goal.
@@ -208,9 +366,14 @@ Actual AI-generated content will be available after connecting the backend.`,
                     <button
                       key={option.id}
                       className={`generation-card ${
-                        selectedMode === option.id ? "selected" : ""
+                        selectedMode === option.id
+                          ? "selected"
+                          : ""
                       }`}
-                      onClick={() => handleModeSelect(option.id)}
+                      onClick={() =>
+                        handleModeSelect(option.id)
+                      }
+                      disabled={isGenerating}
                     >
                       <span className="generation-icon">
                         {option.icon}
@@ -236,10 +399,13 @@ Actual AI-generated content will be available after connecting the backend.`,
                 {/* PREFERENCES */}
 
                 <div className="preferences-section">
-                  <h3>Customize Your Learning Experience</h3>
+                  <h3>
+                    Customize Your Learning Experience
+                  </h3>
 
                   <p>
-                    Choose how you want your study material to be explained.
+                    Choose how you want your study material
+                    to be explained.
                   </p>
 
                   <div className="preferences-grid">
@@ -258,9 +424,17 @@ Actual AI-generated content will be available after connecting the backend.`,
                           setLearningLevel(event.target.value)
                         }
                       >
-                        <option value="beginner">Beginner</option>
-                        <option value="student">University Student</option>
-                        <option value="advanced">Advanced</option>
+                        <option value="beginner">
+                          Beginner
+                        </option>
+
+                        <option value="student">
+                          University Student
+                        </option>
+
+                        <option value="advanced">
+                          Advanced
+                        </option>
                       </select>
                     </div>
 
@@ -278,9 +452,17 @@ Actual AI-generated content will be available after connecting the backend.`,
                           setLanguage(event.target.value)
                         }
                       >
-                        <option value="english">English</option>
-                        <option value="hindi">Hindi</option>
-                        <option value="hinglish">Hinglish</option>
+                        <option value="english">
+                          English
+                        </option>
+
+                        <option value="hindi">
+                          Hindi
+                        </option>
+
+                        <option value="hinglish">
+                          Hinglish
+                        </option>
                       </select>
                     </div>
 
@@ -298,9 +480,17 @@ Actual AI-generated content will be available after connecting the backend.`,
                           setDetailLevel(event.target.value)
                         }
                       >
-                        <option value="short">Short</option>
-                        <option value="medium">Medium</option>
-                        <option value="detailed">Detailed</option>
+                        <option value="short">
+                          Short
+                        </option>
+
+                        <option value="medium">
+                          Medium
+                        </option>
+
+                        <option value="detailed">
+                          Detailed
+                        </option>
                       </select>
                     </div>
 
@@ -312,17 +502,19 @@ Actual AI-generated content will be available after connecting the backend.`,
                 <button
                   className="generate-button"
                   onClick={handleGenerate}
-                  disabled={!selectedMode}
+                  disabled={!selectedMode || isGenerating}
                 >
-                  ✨ Generate{" "}
-                  {selectedMode
-                    ? generationOptions.find(
-                        (option) => option.id === selectedMode
-                      )?.title
-                    : "Learning Material"}
+                  {isGenerating
+                    ? "⏳ Generating..."
+                    : `✨ Generate ${
+                        selectedOptionTitle(
+                          generationOptions,
+                          selectedMode
+                        )
+                      }`}
                 </button>
 
-                {/* STATUS */}
+                {/* STATUS MESSAGE */}
 
                 {statusMessage && (
                   <div className="status-message">
@@ -330,7 +522,41 @@ Actual AI-generated content will be available after connecting the backend.`,
                   </div>
                 )}
 
+                {/* LIVE STREAMING PREVIEW */}
+
+                {isGenerating && streamingContent && (
+                  <div className="streaming-preview">
+                    <h3>
+                      ✨ Generating Your Notes...
+                    </h3>
+
+                    <pre
+                      style={{
+                        whiteSpace: "pre-wrap",
+                        overflowWrap: "anywhere",
+                      }}
+                    >
+                      {streamingContent}
+                    </pre>
+                  </div>
+                )}
+
               </section>
+            )}
+
+            {/* GENERATED QUIZ */}
+
+            {generatedQuiz && (
+              <QuizResults quiz={generatedQuiz} />
+            )}
+
+            {/* GENERATED FLASHCARDS */}
+
+            {generatedFlashcards && (
+              <FlashcardResults
+                title={generatedFlashcards.title}
+                flashcards={generatedFlashcards.flashcards}
+              />
             )}
           </>
         );
@@ -346,15 +572,21 @@ Actual AI-generated content will be available after connecting the backend.`,
         return (
           <div className="page-content">
             <div className="page-header">
-              <span className="page-eyebrow">ACTIVITY</span>
+              <span className="page-eyebrow">
+                ACTIVITY
+              </span>
 
               <h1>History 🕘</h1>
 
-              <p>Track your previous learning sessions.</p>
+              <p>
+                Track your previous learning sessions.
+              </p>
             </div>
 
             <div className="empty-state">
-              <div className="empty-state-icon">🕘</div>
+              <div className="empty-state-icon">
+                🕘
+              </div>
 
               <h2>No history yet</h2>
 
@@ -367,43 +599,85 @@ Actual AI-generated content will be available after connecting the backend.`,
 
       // FLASHCARDS
 
-      case "flashcards":
+      case "flashcards": {
+        let savedFlashcards = generatedFlashcards;
+
+        if (!savedFlashcards) {
+          try {
+            savedFlashcards = JSON.parse(
+              localStorage.getItem("notegenius_flashcards") || "null"
+            );
+          } catch (error) {
+            savedFlashcards = null;
+          }
+        }
+
         return (
           <div className="page-content">
             <div className="page-header">
-              <span className="page-eyebrow">ACTIVE LEARNING</span>
+              <span className="page-eyebrow">
+                ACTIVE LEARNING
+              </span>
 
               <h1>Flashcards 🧠</h1>
 
-              <p>Practice and revise concepts.</p>
-            </div>
-
-            <div className="empty-state">
-              <div className="empty-state-icon">🃏</div>
-
-              <h2>No flashcards yet</h2>
-
               <p>
-                Create flashcards from your study materials.
+                Practice and revise concepts.
               </p>
-
-              <button
-                className="generate-button"
-                onClick={() => setCurrentPage("dashboard")}
-              >
-                Create Flashcards ✨
-              </button>
             </div>
+
+            {savedFlashcards?.flashcards?.length ? (
+              <FlashcardResults
+                title={savedFlashcards.title}
+                flashcards={savedFlashcards.flashcards}
+              />
+            ) : (
+              <div className="empty-state">
+                <div className="empty-state-icon">
+                  🃏
+                </div>
+
+                <h2>No flashcards yet</h2>
+
+                <p>
+                  Create flashcards from your study materials.
+                </p>
+
+                <button
+                  className="generate-button"
+                  onClick={() =>
+                    setCurrentPage("dashboard")
+                  }
+                >
+                  Create Flashcards ✨
+                </button>
+              </div>
+            )}
           </div>
         );
+      }
 
       // QUIZZES
 
-      case "quizzes":
+      case "quizzes": {
+        let savedQuiz = generatedQuiz;
+
+        if (!savedQuiz) {
+          try {
+            savedQuiz = JSON.parse(
+              localStorage.getItem("notegenius_quiz") || "null"
+            );
+          } catch (error) {
+            savedQuiz = null;
+          }
+        }
+
         return (
           <div className="page-content">
             <div className="page-header">
-              <span className="page-eyebrow">TEST YOUR KNOWLEDGE</span>
+              <span className="page-eyebrow">
+                TEST YOUR KNOWLEDGE
+              </span>
 
               <h1>Quizzes ❓</h1>
 
@@ -412,22 +686,33 @@ Actual AI-generated content will be available after connecting the backend.`,
               </p>
             </div>
 
-            <div className="empty-state">
-              <div className="empty-state-icon">🎯</div>
+            {savedQuiz?.questions?.length ? (
+              <QuizResults quiz={savedQuiz} />
+            ) : (
+              <div className="empty-state">
+                <div className="empty-state-icon">
+                  🎯
+                </div>
 
-              <h2>No quizzes yet</h2>
+                <h2>No quizzes yet</h2>
 
-              <p>Create quizzes from your documents.</p>
+                <p>
+                  Create quizzes from your documents.
+                </p>
 
-              <button
-                className="generate-button"
-                onClick={() => setCurrentPage("dashboard")}
-              >
-                Create Quiz ✨
-              </button>
-            </div>
+                <button
+                  className="generate-button"
+                  onClick={() =>
+                    setCurrentPage("dashboard")
+                  }
+                >
+                  Create Quiz ✨
+                </button>
+              </div>
+            )}
           </div>
         );
+      }
 
       // SETTINGS
 
@@ -435,11 +720,15 @@ Actual AI-generated content will be available after connecting the backend.`,
         return (
           <div className="page-content">
             <div className="page-header">
-              <span className="page-eyebrow">PERSONALIZATION</span>
+              <span className="page-eyebrow">
+                PERSONALIZATION
+              </span>
 
               <h1>Settings ⚙️</h1>
 
-              <p>Customize your learning preferences.</p>
+              <p>
+                Customize your learning preferences.
+              </p>
             </div>
 
             <div className="settings-container">
@@ -455,9 +744,17 @@ Actual AI-generated content will be available after connecting the backend.`,
                       setLearningLevel(event.target.value)
                     }
                   >
-                    <option value="beginner">Beginner</option>
-                    <option value="student">University Student</option>
-                    <option value="advanced">Advanced</option>
+                    <option value="beginner">
+                      Beginner
+                    </option>
+
+                    <option value="student">
+                      University Student
+                    </option>
+
+                    <option value="advanced">
+                      Advanced
+                    </option>
                   </select>
                 </div>
 
@@ -470,9 +767,17 @@ Actual AI-generated content will be available after connecting the backend.`,
                       setLanguage(event.target.value)
                     }
                   >
-                    <option value="english">English</option>
-                    <option value="hindi">Hindi</option>
-                    <option value="hinglish">Hinglish</option>
+                    <option value="english">
+                      English
+                    </option>
+
+                    <option value="hindi">
+                      Hindi
+                    </option>
+
+                    <option value="hinglish">
+                      Hinglish
+                    </option>
                   </select>
                 </div>
 
@@ -485,9 +790,17 @@ Actual AI-generated content will be available after connecting the backend.`,
                       setDetailLevel(event.target.value)
                     }
                   >
-                    <option value="short">Short</option>
-                    <option value="medium">Medium</option>
-                    <option value="detailed">Detailed</option>
+                    <option value="short">
+                      Short
+                    </option>
+
+                    <option value="medium">
+                      Medium
+                    </option>
+
+                    <option value="detailed">
+                      Detailed
+                    </option>
                   </select>
                 </div>
 
@@ -508,12 +821,14 @@ Actual AI-generated content will be available after connecting the backend.`,
 
               <h2>
                 Turn your notes into
-                <span className="hero-highlight"> knowledge.</span>
+                <span className="hero-highlight">
+                  {" "}knowledge.
+                </span>
               </h2>
 
               <p>
-                Upload your study materials and let AI help you understand,
-                summarize, and learn smarter.
+                Upload your study materials and let AI help you
+                understand, summarize, and learn smarter.
               </p>
             </section>
 
@@ -549,6 +864,15 @@ Actual AI-generated content will be available after connecting the backend.`,
       </div>
 
     </div>
+  );
+}
+
+// HELPER FUNCTION
+
+function selectedOptionTitle(options, selectedMode) {
+  return (
+    options.find((option) => option.id === selectedMode)
+      ?.title || "Learning Material"
   );
 }
 

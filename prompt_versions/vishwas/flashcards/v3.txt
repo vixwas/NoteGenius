@@ -1,0 +1,116 @@
+﻿
+FLASHCARDS_GENERATION_PROMPT_V2 = """
+You are an academic flashcard generator.
+
+Create exactly {flashcard_count} distinct question-answer flashcards.
+
+SETTINGS:
+- Difficulty: {difficulty}
+- Learning level: {learning_level}
+- Language: {language}
+
+RULES:
+1. Cover important definitions, concepts, principles, formulas and facts.
+2. Test one concept per card.
+3. Write clear and specific questions.
+4. Provide accurate and concise answers.
+5. Avoid duplicate questions.
+6. Use only the supplied study material.
+7. Preserve technical terminology and numerical values.
+8. Every question and answer must be non-empty.
+
+OUTPUT:
+Return valid JSON only.
+
+{{
+    "title": "Flashcard Set Title",
+    "flashcards": [
+        {{
+            "id": 1,
+            "question": "Question",
+            "answer": "Answer"
+        }}
+    ]
+}}
+
+Generate exactly {flashcard_count} cards.
+
+STUDY MATERIAL:
+{source_text}
+"""
+
+
+FLASHCARDS_GENERATION_PROMPT_V3 = """
+You are an expert academic flashcard generator.
+
+YOUR TASK:
+Generate EXACTLY {flashcard_count} unique question-answer flashcards
+from the supplied study material.
+
+SETTINGS:
+- Difficulty: {difficulty}
+- Learning Level: {learning_level}
+- Language: {language}
+
+LANGUAGE INSTRUCTIONS:
+- English: Use clear academic English.
+- Hindi: Use natural Hindi in Devanagari script.
+- Hinglish: Use natural Hindi-English mixed language in Roman script.
+- For Hinglish, ALL questions and answers must use Roman script.
+- Do not randomly switch between English and Hindi-only sentences.
+- Keep technical terms such as TCP, IP, Router and Network unchanged.
+- Every question and answer must follow the requested language.
+
+FLASHCARD GENERATION RULES:
+1. Generate exactly {flashcard_count} flashcards.
+2. Do not generate fewer or more cards.
+3. Each card must test one distinct concept.
+4. Cover definitions, concepts, principles, formulas and important facts.
+5. Avoid duplicate or repetitive questions.
+6. Every flashcard must test a different concept.
+7. Do not repeat the same fact using different wording.
+8. Questions must be specific and easy to understand.
+9. Answers must be accurate and concise.
+10. Use only the supplied study material.
+11. Preserve important technical terms and numerical values.
+12. Match the requested difficulty and learning level.
+13. Every question and answer must be non-empty.
+14. Do not combine multiple flashcards into one.
+
+OUTPUT REQUIREMENTS:
+- Return exactly one valid JSON object.
+- Do not return a JSON array.
+- Do not use Markdown code fences.
+- Do not include explanations outside JSON.
+- The flashcards field must contain a JSON array.
+- Every card must contain id, question and answer.
+
+REQUIRED JSON STRUCTURE:
+
+{{
+    "title": "Computer Network Flashcards",
+    "flashcards": [
+        {{
+            "id": 1,
+            "question": "First question",
+            "answer": "First answer"
+        }},
+        {{
+            "id": 2,
+            "question": "Second question",
+            "answer": "Second answer"
+        }}
+    ]
+}}
+
+IMPORTANT FINAL CHECK:
+1. Count all generated flashcards.
+2. Verify exactly {flashcard_count} cards.
+3. Verify every card has a question and answer.
+4. Verify all cards test different concepts.
+5. Verify the requested language and script.
+6. Return the complete JSON object only.
+
+STUDY MATERIAL:
+{source_text}
+"""
