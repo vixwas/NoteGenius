@@ -1,0 +1,101 @@
+# University Examination Preparation Notes: Newton's Second Law of Motion
+
+---
+
+## 1. Main Topics
+
+- Newton's Second Law of Motion (Statement and Principles)
+- Mathematical Formulation and Derivation
+- Units of Force and Standard Definitions
+- Numerical Applications and Problem-Solving
+
+## 2. Subtopics
+
+- Rate of change of momentum
+- Direction of force and acceleration
+- Constant mass systems
+- SI units and dimensional analysis
+
+## 3. Important Definitions
+
+**Important Definition: Newton's Second Law of Motion**
+
+> The rate of change of momentum of an object is directly proportional to the applied unbalanced force and takes place in the direction in which the force acts.
+
+**Important Definition: One Newton (N)**
+
+> One Newton is defined as the magnitude of force required to accelerate a mass of one kilogram (1 kg) at a rate of one metre per second squared (1 m/s²).
+
+## 4. Concept Explanations
+
+**Key Concept: Momentum and Force Relationship**
+
+- Force is not merely a cause of motion, but a cause of *change* in motion (specifically, a change in momentum).
+- The vector nature of the law implies that the acceleration vector (a⃗) is always in the exact same direction as the net applied force vector (F⃗).
+
+**Key Concept: The Constant Mass Condition**
+
+- In introductory classical mechanics, mass (m) is generally assumed to be constant over time.
+- Under this specific condition, the general statement of the law simplifies significantly to relate force directly to acceleration (F = ma).
+- Note: For variable-mass systems, such as burning rockets, the full momentum formulation must be utilized, though only the constant-mass form is detailed in the primary source.
+
+## 5. Formulas
+
+**Important Formula: General Momentum Form**
+
+F⃗ ∝ d p⃗ / dt
+
+Where p⃗ is linear momentum (p⃗ = m v⃗).
+
+**Important Formula: Constant Mass Form**
+
+F⃗ = m a⃗
+
+**Symbol Explanations:**
+
+- F⃗ = Applied Force (measured in Newtons, N)
+- m = Mass of the object (measured in kilograms, kg)
+- a⃗ = Acceleration produced (measured in metres per second squared, m/s²)
+
+## 6. Examples
+
+**Important Example: Calculating Acceleration**
+
+**Problem:** If a force of 10 N acts on an object of mass 2 kg, calculate its acceleration.
+
+**Given:**
+- Force, F = 10 N
+- Mass, m = 2 kg
+
+**Formula:**
+
+a = F / m
+
+**Calculation:**
+
+a = 10 N / 2 kg = 5 m/s²
+
+**Answer:** The acceleration of the object is 5 m/s².
+
+## 7. Comparisons
+
+**Note:** While the provided source material focuses exclusively on Newton's Second Law, a standard academic comparison format is provided below to contrast it with Newton's First Law for examination completeness, strictly adhering to fundamental mechanics principles.
+
+| Feature | Newton's First Law (Law of Inertia) | Newton's Second Law (Law of Force & Acceleration) |
+|---|---|---|
+| **Primary Focus** | Qualitative definition of force and inertia. | Quantitative measurement of force. |
+| **Mathematical Equation** | ΣF⃗ = 0 (when equilibrium exists). | F⃗ = ma⃗ |
+| **Condition** | Zero net force (constant velocity or rest). | Non-zero net force (resulting in acceleration). |
+
+## 8. Applications
+
+- Determining the acceleration of vehicles, machinery, and projectiles under applied loads.
+- Designing safety features (e.g., seatbelts, airbags) by analyzing impact forces and momentum changes.
+- Solving dynamic mechanical systems using free-body diagrams and equations of motion (F = ma).
+
+## 9. Quick-Revision Summary
+
+- **Core Law:** Rate of change of momentum is proportional to applied force and acts in its direction.
+- **Governing Equation:** F = ma (assuming constant mass).
+- **SI Unit:** Newton (N), equivalent to kg·m/s².
+- **Definition of 1 N:** Force required to accelerate 1 kg at 1 m/s².

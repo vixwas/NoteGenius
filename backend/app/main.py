@@ -1,8 +1,19 @@
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import upload, generate, quiz, flashcards
+from app.routes import (
+    upload,
+    generate,
+    quiz,
+    flashcards,
+    exam_notes,
+    explain
+)
+
+
+# =====================================================
+# FASTAPI APPLICATION
+# =====================================================
 
 app = FastAPI(
     title="NoteGenius API",
@@ -10,7 +21,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS Configuration
+
+# =====================================================
+# CORS CONFIGURATION
+# =====================================================
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -24,28 +39,49 @@ app.add_middleware(
         "http://127.0.0.1:5176",
         "http://localhost:5177",
         "http://127.0.0.1:5177",
-        ],
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Register API Routes
+
+# =====================================================
+# REGISTER API ROUTES
+# =====================================================
+
 app.include_router(upload.router, tags=["Upload"])
+
 app.include_router(generate.router, tags=["AI Generation"])
+
 app.include_router(quiz.router, tags=["Quiz Generation"])
+
 app.include_router(flashcards.router, tags=["Flashcards Generation"])
 
+app.include_router(exam_notes.router, tags=["Exam Notes Generation"])
+
+app.include_router(explain.router, tags=["Simple Explanation"])
+
+
+# =====================================================
+# HOME ENDPOINT
+# =====================================================
 
 @app.get("/")
 def home():
+
     return {
         "message": "NoteGenius Backend is running!"
     }
 
 
+# =====================================================
+# HEALTH CHECK
+# =====================================================
+
 @app.get("/health")
 def health_check():
+
     return {
         "status": "healthy"
     }

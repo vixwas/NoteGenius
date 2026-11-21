@@ -1,0 +1,69 @@
+# Examination Notes: Newton's Second Law of Motion
+
+## 1. Important Definitions
+
+- Newton's Second Law of Motion: States that the rate of change of momentum of an object is directly proportional to the applied unbalanced force and takes place in the direction in which the force acts.
+
+- Newton (N) [SI Unit of Force]: Defined as the force required to accelerate a mass of one kilogram (1 kg) at the rate of one metre per second squared (1 m/s²).
+
+## 2. Important Concepts
+
+### 2.1 Core Principles
+
+- Relationship between Force and Momentum: The fundamental premise connects applied force directly to how rapidly an object's momentum changes.
+- Directionality: The resulting acceleration and change in momentum occur in the direction of the applied force.
+- Condition for F = ma: The simplified equation assumes constant mass.
+
+### 2.2 Mathematical Formulation
+
+F = ma
+
+Where:
+- F = Force applied
+- m = Mass of the object
+- a = Acceleration produced
+
+## 3. Formulas and Numericals
+
+### 3.1 Mathematical Expression
+
+Force Equation: F = ma
+
+Rearranged for Acceleration: a = F/m
+
+### 3.2 Numerical Example
+
+Given:
+- Force = 10 N
+- Mass = 2 kg
+
+Calculation:
+a = F/m = 10/2 = 5 m/s²
+
+Result: Acceleration = 5 m/s².
+
+## 4. Exam-Oriented Content
+
+- Key terminology: Rate of change of momentum, applied force, constant mass, acceleration, Newton.
+- Core exam takeaway: Understand the rate of change of momentum and apply F = ma.
+- SI units: kg, m/s² and N = kg·m/s².
+
+## 5. Revision Section
+
+### Important Definitions
+- Newton's Second Law: Rate of change of momentum is directly proportional to applied force.
+- 1 Newton: Force needed to give a 1 kg mass an acceleration of 1 m/s².
+
+### Important Formulas
+- F = ma
+- a = F/m
+
+### Key Concepts
+- Force causes a change in momentum.
+- Force determines the direction of acceleration.
+- The simplified equation applies under constant mass.
+
+### Quick Revision Points
+- SI Unit of Force: Newton (N).
+- Force is proportional to the rate of change of momentum.
+- 10 N acting on 2 kg produces 5 m/s² acceleration.
