@@ -1,0 +1,44 @@
+# Machine Learning
+
+## Overview
+Machine Learning is a branch of Artificial Intelligence that focuses on enabling computers to learn patterns from data, allowing them to make predictions or decisions without requiring explicit programming for every individual task.
+
+## Key Concepts
+*   **Core Functionality:** Learning patterns from data to predict or decide.
+*   **Three Major Types of Machine Learning:**
+    *   **Supervised Learning:** Learning from labelled data where each training example includes both input features and a known output.
+    *   **Unsupervised Learning:** Learning from unlabelled data to uncover hidden patterns or structures.
+    *   **Reinforcement Learning:** An agent learning through interaction with an environment by receiving rewards or penalties based on its actions.
+*   **Model Performance Challenges:**
+    *   **Overfitting:** Occurs when a model learns the training data too closely (including noise), resulting in poor performance on unseen data.
+    *   **Underfitting:** Occurs when a model is too simplistic to capture the underlying patterns in the data.
+
+## Important Definitions
+*   **Machine Learning:** A branch of Artificial Intelligence enabling computers to learn from data and make predictions/decisions without explicit programming.
+*   **Supervised Learning:** A machine learning approach utilizing labelled data (input features and known outputs).
+*   **Unsupervised Learning:** A machine learning approach utilizing unlabelled data to identify hidden patterns or structures.
+*   **Reinforcement Learning:** A type of machine learning where an agent improves its strategy over time by interacting with an environment and receiving rewards or penalties.
+*   **Overfitting:** A modeling error where the model fits the training data too strictly, capturing noise and failing on unseen data.
+*   **Underfitting:** A modeling error where the model is insufficiently complex to capture underlying data patterns.
+
+## Formulas and Processes
+*(Note: While explicit mathematical formulas were not provided in the source text, the evaluative processes and metrics are outlined below.)*
+
+*   **Model Evaluation Process:** Essential for measuring performance.
+    *   **Classification Model Metrics:** Evaluated using Accuracy, Precision, Recall, and F1-score.
+    *   **Regression Model Metrics:** Commonly evaluated using Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE).
+
+## Important Comparisons
+*   **Supervised vs. Unsupervised vs. Reinforcement Learning:**
+    *   *Supervised Learning* relies on labelled data and known outputs (e.g., spam detection, house price prediction, image classification).
+    *   *Unsupervised Learning* relies on unlabelled data to find hidden structures, utilizing techniques like clustering and dimensionality reduction.
+    *   *Reinforcement Learning* relies on an interactive agent-environment setup, optimizing strategies through trial-and-error rewards and penalties.
+*   **Overfitting vs. Underfitting:**
+    *   *Overfitting* happens when a model is too complex and learns the training data/noise too well, hurting generalization.
+    *   *Underfitting* happens when a model is too simple, failing to capture the data's fundamental patterns.
+
+## Key Takeaways
+*   Machine Learning automates pattern recognition and prediction using data instead of manual rule-based programming.
+*   The three primary learning paradigms—Supervised, Unsupervised, and Reinforcement Learning—are tailored to different data availability and environmental interaction types.
+*   Balancing model complexity is crucial to avoid the extremes of overfitting and underfitting.
+*   Proper model evaluation utilizing specific metrics (such as Accuracy, Precision, Recall, F1-score for classification, and MAE, RMSE for regression) is vital for measuring true performance.

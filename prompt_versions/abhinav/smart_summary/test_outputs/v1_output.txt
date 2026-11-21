@@ -1,0 +1,26 @@
+### Topic Overview
+Machine Learning is a branch of Artificial Intelligence that allows computers to learn patterns from data to make predictions or decisions without explicit programming.
+
+### Key Concepts
+*   **Supervised Learning:** Learns from labelled data (input features with known outputs). Examples: spam detection, house price prediction, image classification.
+*   **Unsupervised Learning:** Learns from unlabelled data to find hidden patterns or structures. Uses techniques like clustering and dimensionality reduction.
+*   **Reinforcement Learning:** An agent learns by interacting with an environment, receiving rewards or penalties to improve its strategy over time.
+*   **Model Challenges:**
+    *   **Overfitting:** Learning training data too closely (including noise), resulting in poor performance on unseen data.
+    *   **Underfitting:** Being too simple to capture underlying patterns.
+
+### Important Definitions
+*   **Machine Learning:** A branch of AI enabling computers to learn patterns from data and make predictions or decisions.
+
+### Important Comparisons
+| Model Type | Data Type | Core Mechanism |
+| :--- | :--- | :--- |
+| **Supervised Learning** | Labelled data | Learns from input features and known outputs. |
+| **Unsupervised Learning** | Unlabelled data | Identifies hidden patterns or structures. |
+| **Reinforcement Learning** | Environment interaction | Learns via rewards and penalties based on actions. |
+
+### Key Takeaways
+*   Machine learning relies on three primary paradigms: Supervised, Unsupervised, and Reinforcement learning.
+*   Models must balance complexity to avoid **overfitting** and **underfitting**.
+*   **Classification models** are evaluated using accuracy, precision, recall, and F1-score.
+*   **Regression models** are evaluated using Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE).

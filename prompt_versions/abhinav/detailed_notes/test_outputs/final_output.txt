@@ -1,0 +1,61 @@
+# Machine Learning: Exam-Oriented Study Notes
+
+## 1. Introduction to Machine Learning
+
+* **Definition:** Machine Learning is a branch of Artificial Intelligence (AI) that enables computers to learn patterns from data and make predictions or decisions without being explicitly programmed for every task.
+
+---
+
+## 2. Major Types of Machine Learning
+
+Machine Learning is broadly categorized into three major types:
+
+### A. Supervised Learning
+* **Definition:** The model learns from **labelled data**. 
+* **Data Structure:** Each training example contains input features and a known output.
+* **Common Applications:**
+  * Email spam detection
+  * House price prediction
+  * Image classification
+
+### B. Unsupervised Learning
+* **Definition:** The model learns from **unlabelled data**.
+* **Objective:** Identifies hidden patterns or structures within the data.
+* **Common Techniques:**
+  * Clustering
+  * Dimensionality reduction
+
+### C. Reinforcement Learning
+* **Definition:** An agent learns by interacting with an environment.
+* **Mechanism:** It receives rewards or penalties based on its actions and improves its strategy over time.
+
+---
+
+## 3. Model Challenges: Overfitting and Underfitting
+
+When training machine learning models, two common performance issues can arise:
+
+* **Overfitting:** 
+  * Occurs when a model learns the training data too closely, including random noise.
+  * **Result:** Performs very well on training data but poorly on unseen data.
+* **Underfitting:** 
+  * Occurs when a model is too simple to capture the underlying patterns in the data.
+  * **Result:** Performs poorly on both training and unseen data.
+
+---
+
+## 4. Model Evaluation
+
+Model evaluation is essential for measuring the performance and generalization capability of a machine learning model. Different metrics are used depending on the problem type:
+
+### A. Classification Model Metrics
+Classification models can be evaluated using:
+* Accuracy
+* Precision
+* Recall
+* F1-score
+
+### B. Regression Model Metrics
+Regression models commonly use:
+* Mean Absolute Error (MAE)
+* Root Mean Squared Error (RMSE)

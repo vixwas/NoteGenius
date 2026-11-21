@@ -5,7 +5,8 @@ from pydantic import BaseModel
 
 from app.services.ai_service import (
     generate_notes,
-    generate_notes_stream
+    generate_notes_stream,
+    generate_summary
 )
 
 router = APIRouter()
@@ -82,3 +83,13 @@ async def create_notes_stream(request: NotesRequest):
             "X-Accel-Buffering": "no"
         }
     )
+
+
+
+@router.post("/generate-summary")
+async def generate_summary_route(request: NotesRequest):
+    try:
+        summary = generate_summary(request.source_text)
+        return {"summary": summary}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,0 +1,72 @@
+# Machine Learning: Study Notes
+
+## 1. Introduction to Machine Learning
+* **Definition:** A branch of Artificial Intelligence (AI) that enables computers to learn patterns from data and make predictions or decisions without being explicitly programmed for every task.
+* **Exam Tip:** Remember this core definition as it clearly distinguishes machine learning from traditional programming.
+
+---
+
+## 2. Major Types of Machine Learning
+Machine Learning is broadly classified into three major types:
+
+### A. Supervised Learning
+* **Definition:** The model learns from **labelled data**.
+* **Key Characteristic:** Each training example contains both input features and a known output (target).
+* **Common Applications:**
+  * Email spam detection
+  * House price prediction
+  * Image classification
+
+### B. Unsupervised Learning
+* **Definition:** The model learns from **unlabelled data**.
+* **Key Characteristic:** The goal is to identify hidden patterns or structures within the data without pre-existing answers.
+* **Common Techniques:** 
+  * Clustering
+  * Dimensionality reduction
+
+### C. Reinforcement Learning
+* **Definition:** An approach where an **agent** learns by interacting with an **environment**.
+* **Key Characteristic:** The agent receives rewards or penalties based on its actions, allowing it to improve its strategy (policy) over time.
+
+---
+
+## 3. Model Performance & Challenges (Overfitting vs. Underfitting)
+When training machine learning models, two common performance issues can arise:
+
+* **Overfitting:**
+  * **Definition:** Occurs when a model learns the training data *too closely*, including random noise and irrelevant details.
+  * **Consequence:** Performs very well on training data but **performs poorly on unseen data** (low generalization).
+* **Underfitting:**
+  * **Definition:** Occurs when a model is **too simple** to capture the underlying patterns in the data.
+  * **Consequence:** Performs poorly on both training data and unseen data.
+
+---
+
+## 4. Model Evaluation
+Model evaluation is crucial for measuring how well a model performs. Different types of machine learning tasks use different evaluation metrics:
+
+### A. Classification Model Metrics
+Used for models that predict discrete classes/categories:
+* **Accuracy:** The ratio of correct predictions to total predictions.
+* **Precision:** Measures the accuracy of positive predictions.
+* **Recall:** Measures the ability of the model to find all positive instances.
+* **F1-Score:** The harmonic mean of precision and recall.
+
+### B. Regression Model Metrics
+Used for models that predict continuous numerical values:
+* **MAE (Mean Absolute Error):** Measures the average magnitude of absolute errors between predicted and actual values.
+* **RMSE (Root Mean Squared Error):** Measures the square root of the average squared differences between predicted and actual values (penalizes larger errors more heavily).
+
+---
+
+## Quick Revision Summary Table
+
+| Concept/Type | Key Feature / Purpose | Common Examples / Metrics |
+| :--- | :--- | :--- |
+| **Supervised Learning** | Learns from labelled data | Spam detection, House pricing, Image classification |
+| **Unsupervised Learning** | Learns from unlabelled data | Clustering, Dimensionality reduction |
+| **Reinforcement Learning** | Agent learns via rewards/penalties | Environment interaction to improve strategy |
+| **Overfitting** | Learns training data/noise too well | Poor performance on unseen data |
+| **Underfitting** | Model is too simple | Poor performance on training & unseen data |
+| **Classification Evaluation** | Evaluates categorical predictions | Accuracy, Precision, Recall, F1-score |
+| **Regression Evaluation** | Evaluates continuous predictions | MAE, RMSE |

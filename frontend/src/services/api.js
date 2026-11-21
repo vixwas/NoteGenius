@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "http://127.0.0.1:8002";
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 async function handleResponse(response) {
   const data = await response.json().catch(() => ({}));
@@ -158,4 +158,23 @@ export async function generateNotesStream(sourceText, onChunk) {
   } finally {
     reader.releaseLock();
   }
+}
+
+
+// Generate Smart Summary
+export async function generateSummary(sourceText) {
+  const response = await fetch(
+    `${API_BASE_URL}/generate-summary`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        source_text: sourceText,
+      }),
+    }
+  );
+
+  return handleResponse(response);
 }

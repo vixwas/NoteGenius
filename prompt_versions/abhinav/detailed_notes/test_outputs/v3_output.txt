@@ -1,0 +1,32 @@
+# Machine Learning
+
+Machine learning is a subfield of artificial intelligence focused on building systems that learn from data to improve performance on a specific task over time. This overview covers the core paradigms, common modeling challenges, and evaluation metrics used in the field.
+
+## Types of Machine Learning
+
+There are three major types of Machine Learning:
+
+1. Supervised Learning:
+- The model learns from labelled data. 
+- Each training example contains input features and a known output. 
+- Common applications include email spam detection, house price prediction and image classification.
+
+2. Unsupervised Learning:
+- The model learns from unlabelled data and identifies hidden patterns or structures. 
+- Clustering and dimensionality reduction are common techniques.
+
+3. Reinforcement Learning:
+- An agent learns by interacting with an environment. 
+- It receives rewards or penalties based on its actions and improves its strategy over time.
+
+## Model Performance Challenges
+
+- **Overfitting**: **Definition:** Occurs when a model learns the training data too closely, including noise, and performs poorly on unseen data.
+- **Underfitting**: **Definition:** Occurs when a model is too simple to capture the underlying patterns.
+
+## Model Evaluation
+
+Model evaluation is important for measuring performance. 
+
+- Classification models can be evaluated using accuracy, precision, recall and **F1-score** [Clarification: A metric that combines precision and recall into a single score].
+- Regression models commonly use **Mean Absolute Error (MAE)** and **Root Mean Squared Error (RMSE)**.

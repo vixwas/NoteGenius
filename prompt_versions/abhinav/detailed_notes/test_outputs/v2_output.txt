@@ -1,0 +1,50 @@
+# Machine Learning Study Notes
+
+These notes provide an overview of fundamental machine learning concepts, including types of learning, model performance issues like overfitting and underfitting, and standard evaluation metrics for different model types.
+
+## Machine Learning Overview
+
+* **Machine Learning** is a branch of Artificial Intelligence that enables computers to learn patterns from data and make predictions or decisions without being explicitly programmed for every task.
+
+## Major Types of Machine Learning
+
+There are three major types of Machine Learning:
+
+### 1. Supervised Learning
+* The model learns from **labelled data**.
+* Each training example contains input features and a known output.
+* Common applications include:
+  * Email spam detection
+  * House price prediction
+  * Image classification
+
+### 2. Unsupervised Learning
+* The model learns from **unlabelled data** and identifies hidden patterns or structures.
+* **Clustering** and **dimensionality reduction** are common techniques.
+
+### 3. Reinforcement Learning
+* An **agent** learns by interacting with an environment.
+* It receives rewards or penalties based on its actions and improves its strategy over time.
+
+## Model Performance Challenges
+
+* **Overfitting**: Occurs when a model learns the training data too closely, including noise, and performs poorly on unseen data.
+* **Underfitting**: Occurs when a model is too simple to capture the underlying patterns.
+
+## Model Evaluation
+
+Model evaluation is important for measuring performance. Different types of models use different metrics:
+
+* **Classification Models**: Can be evaluated using **accuracy**, **precision**, **recall**, and **F1-score**.
+* **Regression Models**: Commonly use **Mean Absolute Error (MAE)** and **Root Mean Squared Error (RMSE)**.
+
+## Quick Revision
+
+* **Machine Learning**: Branch of AI allowing computers to learn patterns from data without explicit programming.
+* **Supervised Learning**: Learning from labelled data with known outputs (e.g., spam detection, price prediction).
+* **Unsupervised Learning**: Learning hidden patterns from unlabelled data (e.g., clustering).
+* **Reinforcement Learning**: Agent learns through environment interaction via rewards and penalties.
+* **Overfitting**: Model learns training data and noise too closely, failing on unseen data.
+* **Underfitting**: Model is too simple to capture underlying patterns.
+* **Classification Metrics**: Accuracy, precision, recall, F1-score.
+* **Regression Metrics**: MAE (Mean Absolute Error), RMSE (Root Mean Squared Error).

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import {
   generateStudyMaterial,
+  generateSummaryMaterial,
   generateQuizMaterial,
   generateFlashcardMaterial,
 } from "./services/aiService";
@@ -120,13 +121,13 @@ function App() {
       return;
     }
 
-    // These three modes are connected to the backend.
-    if (!["detailed", "quiz", "flashcards"].includes(selectedMode)) {
-      setStatusMessage(
-        "⚠️ This generation mode is not connected yet. Detailed Notes, Quiz and Flashcards are currently supported."
-      );
-      return;
-    }
+    // These modes are connected to the backend.
+if (!["summary", "detailed", "quiz", "flashcards"].includes(selectedMode)) {
+  setStatusMessage(
+    "⚠️ This generation mode is not connected yet."
+  );
+  return;
+}
 
     const learningLevelMap = {
       beginner: "Beginner",
@@ -151,6 +152,55 @@ function App() {
       );
 
       const selectedFile = selectedFiles[0];
+
+
+      // SMART SUMMARY GENERATION
+
+      if (selectedMode === "summary") {
+        setStatusMessage("⏳ AI is generating your Smart Summary...");
+
+        const result = await generateSummaryMaterial(selectedFile);
+
+        if (!result?.content?.trim()) {
+          throw new Error("AI did not return a valid summary.");
+        }
+
+        let existingNotes = [];
+
+        try {
+          const savedNotes = JSON.parse(
+            localStorage.getItem("notegenius_notes") || "[]"
+          );
+          existingNotes = Array.isArray(savedNotes) ? savedNotes : [];
+        } catch (error) {
+          console.error("Error reading saved notes:", error);
+        }
+
+        const newSummary = {
+          id: Date.now(),
+          title: result.title || selectedFile.name.replace(/\.[^/.]+$/, ""),
+          type: "summary",
+          description: "AI-generated smart summary from your uploaded document.",
+          files: [result.originalFilename || selectedFile.name],
+          learningLevel,
+          language,
+          detailLevel,
+          date: new Date().toLocaleDateString(),
+          content: result.content,
+        };
+
+        localStorage.setItem(
+          "notegenius_notes",
+          JSON.stringify([newSummary, ...existingNotes])
+        );
+
+        setStreamingContent(result.content);
+        setStatusMessage(
+          "✅ Smart Summary generated successfully! Open My Notes to view it."
+        );
+
+        console.log("AI-generated summary saved:", newSummary);
+      }
 
       // DETAILED NOTES GENERATION
 

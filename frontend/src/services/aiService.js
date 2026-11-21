@@ -2,6 +2,7 @@
 import {
   uploadFile,
   generateNotesStream,
+  generateSummary,
   generateQuiz,
   generateFlashcards,
 } from "./api";
@@ -110,6 +111,25 @@ export async function generateFlashcardMaterial(
     title: result.flashcards?.title || "Generated Flashcards",
     originalFilename: uploadResult.originalFilename,
     flashcards: result.flashcards?.flashcards || [],
+    status: "success",
+  };
+}
+
+
+// Generate Smart Summary
+export async function generateSummaryMaterial(file) {
+  const uploadResult = await extractDocumentText(file);
+
+  const result = await generateSummary(uploadResult.sourceText);
+
+  if (!result?.summary || !result.summary.trim()) {
+    throw new Error("AI did not return a valid summary.");
+  }
+
+  return {
+    title: file.name.replace(/\.[^/.]+$/, ""),
+    originalFilename: uploadResult.originalFilename,
+    content: result.summary,
     status: "success",
   };
 }
